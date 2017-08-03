@@ -1,0 +1,103 @@
+body {
+  background: url("/static/image/login/login.jpg") no-repeat;
+  background-size: cover;
+}
+
+#wrapper {
+  margin: 0 auto;     /*居中*/
+  @media (min-height: 500px) {
+    height: 380px;
+  }
+  @media (max-height: 500px) {
+    height: 300px;
+  }
+  width: 50%;
+  padding-top: 5%;
+}
+
+#login {
+  margin: 0 auto;
+  height: 100%;
+  width: 90%;
+  padding-left: 10%;
+  background-color: rgba(192, 192, 192, 0.4);
+
+  .fa-user {
+    margin-left: 8%;
+    position: absolute;
+    display: block;
+    margin-top: 7%;
+  }
+
+  .fa-lock {
+    margin-left: 8%;
+    position: absolute;
+    display: block;
+    margin-top: 1%;
+  }
+
+  input {
+    outline: none;
+  }
+
+  input[type="text"] {
+    margin-top: 16%;
+    margin-left: 18%;
+    padding-left: 10%;
+    height: 14%;
+    width: 50%;
+    background: #dedede;
+    color: #363636;
+    border-top: 1px solid #000;
+    border-right: 1px solid #000;
+    border-left: 1px solid #000;
+    border-radius: 3px 3px 0 0;
+  }
+
+  input[type="password"] {
+    margin-left: 18%;
+    margin-bottom: 10%;
+    padding-left: 10%;
+    height: 14%;
+    width: 50%;
+    color: #363636;
+    background-color: #dedede;
+    border-top: 1px solid #828282;
+    border-right: 1px solid #000;
+    border-bottom: 1px solid #000;
+    border-left: 1px solid #000;
+    border-radius: 0 0 3px 3px;
+  }
+
+  #message {
+    margin-left: 18%;
+    color: red;
+  }
+
+  input[type="submit"] {
+    margin-left: 18%;
+    font-weight: bold;
+    line-height: 30%;
+    text-align: center;
+    height: 15%;
+    width: 30%;
+    color: #fff;
+    background: #000;
+    border: 1px solid #391515;
+    border-radius: 3px;
+  }
+
+  input[type="submit"]:hover {
+    background: #fff;
+    color: #000;
+  }
+
+  .register_wrapper {
+    float: right;
+    margin-right: 30%;
+
+    span {
+      display: block;
+    }
+  }
+}

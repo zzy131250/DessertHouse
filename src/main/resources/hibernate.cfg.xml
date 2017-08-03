@@ -1,0 +1,38 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE hibernate-configuration PUBLIC
+    "-//Hibernate/Hibernate Configuration DTD//EN"
+    "http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
+<hibernate-configuration>
+  <session-factory>
+    <property name="connection.url">jdbc:mysql://localhost:3306/dessert_house?useUnicode=true&amp;characterEncoding=UTF-8</property>
+    <property name="connection.driver_class">com.mysql.jdbc.Driver</property>
+    <property name="connection.username">root</property>
+    <property name="connection.password">123</property>
+    <property name="dialect">org.hibernate.dialect.MySQL5Dialect</property>
+    <property name="show_sql">true</property>
+    <property name="connection.autocommit">true</property>
+    <property name="hibernate.enable_lazy_load_no_trans">true</property>
+
+    <property name="hibernate.c3p0.min_size">5</property>
+    <property name="hibernate.c3p0.max_size">20</property>
+    <property name="hibernate.c3p0.timeout">5000</property>
+    <property name="hibernate.c3p0.max_statements">500</property>
+    <property name="hibernate.c3p0.idle_test_period">3000</property>
+      <!-- DB schema will be updated if needed -->
+    <property name="hbm2ddl.auto">update</property>
+
+    <mapping class="com.justin.desserthouse.model.BankCard"/>
+    <mapping class="com.justin.desserthouse.model.ExpenseRecord"/>
+    <mapping class="com.justin.desserthouse.model.Member"/>
+    <mapping class="com.justin.desserthouse.model.MemberCard"/>
+    <mapping class="com.justin.desserthouse.model.PaymentRecord"/>
+    <mapping class="com.justin.desserthouse.model.Product"/>
+    <mapping class="com.justin.desserthouse.model.ProductPlan"/>
+    <mapping class="com.justin.desserthouse.model.ProductInventory"/>
+    <mapping class="com.justin.desserthouse.model.Reservation"/>
+    <mapping class="com.justin.desserthouse.model.Shop"/>
+    <mapping class="com.justin.desserthouse.model.Staff"/>
+    <mapping class="com.justin.desserthouse.model.Test"/>
+    <mapping class="com.justin.desserthouse.model.User"/>
+  </session-factory>
+</hibernate-configuration>

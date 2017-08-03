@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:context="http://www.springframework.org/schema/context" xmlns:tx="http://www.springframework.org/schema/tx"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd">
+
+    <!-- 配置sessionFactory -->
+    <bean id="sessionFactory" class="org.springframework.orm.hibernate4.LocalSessionFactoryBean">
+        <property name="configLocation">
+		    <value>classpath:hibernate.cfg.xml</value>
+	    </property>
+    </bean>
+
+    <!-- 配置transactionManager -->
+    <bean id="transactionManager"
+          class="org.springframework.orm.hibernate4.HibernateTransactionManager">
+        <property name="sessionFactory" ref="sessionFactory" />
+    </bean>
+
+    <!-- 声明式容器事务管理 ,transaction-manager指定事务管理器为transactionManager -->
+    <tx:advice id="txAdvice" transaction-manager="transactionManager">
+        <tx:attributes>
+            <tx:method name="*" propagation="REQUIRED" />
+        </tx:attributes>
+    </tx:advice>
+
+    <!-- 定义切面，在com.justin.desserthouse.service包及子包中所有以Service结尾的方法中，执行有关的hibernate session的事务操作 -->
+    <aop:aspectj-autoproxy/>
+    <aop:config>
+        <!-- 只对业务逻辑层实施事务 -->
+        <aop:pointcut id="defaultOperation"
+                      expression="execution( * com.justin.desserthouse.service..*Service.*(..))" />
+        <aop:advisor advice-ref="txAdvice" pointcut-ref="defaultOperation" />
+    </aop:config>
+
+    <!-- 定义 Autowired 自动注入 bean -->
+    <bean  class="org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor" />
+
+    <!-- 扫描有注解的文件 base-package 包路径 -->
+    <context:component-scan base-package="com.justin.desserthouse" />
+
+    <!--actions-->
+    <bean id="AdminAction" class="com.justin.desserthouse.action.AdminAction"/>
+    <bean id="LoginAction" class="com.justin.desserthouse.action.LoginAction"/>
+    <bean id="MemberAction" class="com.justin.desserthouse.action.MemberAction"/>
+    <bean id="StaffAction" class="com.justin.desserthouse.action.StaffAction"/>
+    <bean id="TestAction" class="com.justin.desserthouse.action.TestAction"/>
+
+</beans>

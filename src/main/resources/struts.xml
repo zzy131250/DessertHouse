@@ -1,0 +1,271 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts PUBLIC
+        "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+        "http://struts.apache.org/dtds/struts-2.0.dtd">
+<struts>
+
+    <constant name="struts.action.excludePattern" value="/static/.*?" /><!--允许访问资源文件-->
+
+    <package name="test" namespace="/" extends="struts-default">
+        <action name="test" class="TestAction" method="execute">
+            <result name="success">/templates/test/success.jsp</result>
+            <result name="fail">/templates/test/fail.jsp</result>
+        </action>
+    </package>
+
+    <package name="default" namespace="/" extends="struts-default, json-default">
+        <interceptors>
+            <interceptor name="AjaxInterceptor" class="com.justin.desserthouse.interceptor.AjaxInterceptor"/>
+            <interceptor-stack name="AjaxStack">
+                <interceptor-ref name="defaultStack"/>
+                <interceptor-ref name="AjaxInterceptor"/>
+            </interceptor-stack>
+        </interceptors>
+        <global-results>
+            <result name="ajax_error" type="json">
+                <param name="errorCode">400</param>
+            </result>
+        </global-results>
+        <action name="login" class="LoginAction" method="login">
+            <result name="login">/templates/login/login.jsp</result>
+            <result name="error" type="redirect">/login</result>
+            <result name="admin" type="redirect">/admin/shop</result>
+            <result name="branchStaff" type="redirect">/staff/sale</result>
+            <result name="headStaff" type="redirect">/staff/product_plan</result>
+            <result name="manager" type="redirect">/staff/product_plan_check</result>
+            <result name="member" type="redirect">/product</result>
+        </action>
+        <action name="logout" class="LoginAction" method="logout">
+            <result name="logout" type="redirect">/login</result>
+        </action>
+        <action name="check_register" class="LoginAction" method="checkRegister">
+            <result name="message" type="json">
+                <param name="includeProperties">message</param>
+            </result>
+            <interceptor-ref name="AjaxStack"></interceptor-ref>
+        </action>
+        <action name="register" class="LoginAction" method="register">
+            <result name="register">/templates/login/register.jsp</result>
+            <result name="success" type="redirect">/product</result>
+        </action>
+        <action name="index" class="MemberAction" method="index">
+            <result name="index">index.jsp</result>
+        </action>
+        <action name="activate" class="MemberAction" method="activate">
+            <result name="show">/templates/member/activate.jsp</result>
+            <result name="message" type="json">
+                <param name="includeProperties">
+                    message
+                </param>
+            </result>
+        </action>
+        <action name="product" class="MemberAction" method="product">
+            <result name="show">/templates/member/product.jsp</result>
+        </action>
+        <action name="reserve" class="MemberAction" method="reserve">
+            <result name="show">/templates/member/reserve.jsp</result>
+            <result name="shopMessage" type="json">
+                <param name="includeProperties">
+                    shopList\[\d+\]\.id,
+                    shopList\[\d+\]\.name,
+                </param>
+            </result>
+            <result name="inventoryMessage" type="json">
+                <param name="includeProperties">
+                    inventory, price
+                </param>
+            </result>
+            <result name="stateMessage" type="json">
+                <param name="includeProperties">
+                    message
+                </param>
+            </result>
+            <result name="reload" type="redirect">/reservation</result>
+            <result name="ajax" type="json">
+                <param name="includeProperties">
+                    message
+                </param>
+            </result>
+        </action>
+        <action name="reservation" class="MemberAction" method="reservation">
+            <result name="show">/templates/member/reservation.jsp</result>
+            <result name="reload" type="redirect">/reservation</result>
+        </action>
+        <action name="contact" class="MemberAction" method="contact">
+            <result name="show">/templates/member/contact.jsp</result>
+        </action>
+        <action name="profile" class="MemberAction" method="profile">
+            <result name="show">/templates/member/profile.jsp</result>
+            <result name="reload" type="redirect">/profile</result>
+            <result name="message" type="json">
+                <param name="includeProperties">
+                    message
+                </param>
+            </result>
+        </action>
+        <action name="shopping_cart" class="MemberAction" method="shoppingCart">
+            <result name="ok" type="json">
+                <param name="includeProperties">
+                    message
+                </param>
+            </result>
+        </action>
+    </package>
+
+    <package name="admin" namespace="/admin" extends="struts-default, json-default">
+        <interceptors>
+            <interceptor name="AdminInterceptor" class="com.justin.desserthouse.interceptor.AdminInterceptor"/>
+            <interceptor name="AjaxInterceptor" class="com.justin.desserthouse.interceptor.AjaxInterceptor"/>
+            <interceptor-stack name="AdminStack">
+                <interceptor-ref name="defaultStack"/>
+                <interceptor-ref name="AdminInterceptor"/>
+            </interceptor-stack>
+            <interceptor-stack name="AjaxStack">
+                <interceptor-ref name="defaultStack"/>
+                <interceptor-ref name="AjaxInterceptor"/>
+            </interceptor-stack>
+        </interceptors>
+        <global-results>
+            <result name="403">/templates/login/403.jsp</result>
+            <result name="ajax_error" type="json">
+                <param name="errorCode">400</param>
+            </result>
+        </global-results>
+        <action name="shop" class="AdminAction" method="shop">
+            <result name="show">/templates/admin/shop.jsp</result>
+            <result name="reload" type="redirect">/admin/shop</result>
+            <result name="message" type="json">
+                <param name="includeProperties">message</param>
+            </result>
+            <interceptor-ref name="AdminStack"></interceptor-ref>
+        </action>
+        <action name="staff" class="AdminAction" method="staff">
+            <result name="show">/templates/admin/staff.jsp</result>
+            <result name="reload" type="redirect">/admin/staff</result>
+            <result name="message" type="json">
+                <param name="includeProperties">message</param>
+            </result>
+            <interceptor-ref name="AdminStack"></interceptor-ref>
+        </action>
+        <action name="get_shop_json" class="AdminAction" method="shopJson">
+            <result name="message" type="json">
+                <param name="includeProperties">
+                    shopList\[\d+\]\.id,
+                    shopList\[\d+\]\.name,
+                </param>
+            </result>
+            <interceptor-ref name="AjaxStack"></interceptor-ref>
+        </action>
+    </package>
+
+    <package name="staff" namespace="/staff" extends="struts-default, json-default">
+        <interceptors>
+            <interceptor name="BranchInterceptor" class="com.justin.desserthouse.interceptor.BranchInterceptor"/>
+            <interceptor name="HeadInterceptor" class="com.justin.desserthouse.interceptor.HeadInterceptor"/>
+            <interceptor name="ManagerInterceptor" class="com.justin.desserthouse.interceptor.ManagerInterceptor"/>
+            <interceptor name="AjaxInterceptor" class="com.justin.desserthouse.interceptor.AjaxInterceptor"/>
+            <interceptor-stack name="BranchStack">
+                <interceptor-ref name="defaultStack"/>
+                <interceptor-ref name="BranchInterceptor"/>
+            </interceptor-stack>
+            <interceptor-stack name="HeadStack">
+                <interceptor-ref name="defaultStack"/>
+                <interceptor-ref name="HeadInterceptor"/>
+            </interceptor-stack>
+            <interceptor-stack name="ManagerStack">
+                <interceptor-ref name="defaultStack"/>
+                <interceptor-ref name="ManagerInterceptor"/>
+            </interceptor-stack>
+            <interceptor-stack name="AjaxStack">
+                <interceptor-ref name="defaultStack"/>
+                <interceptor-ref name="AjaxInterceptor"/>
+            </interceptor-stack>
+        </interceptors>
+        <global-results>
+            <result name="403">/templates/login/403.jsp</result>
+            <result name="ajax_error" type="json">
+                <param name="errorCode">400</param>
+            </result>
+        </global-results>
+        <action name="sale" class="StaffAction" method="sale">
+            <result name="show">/templates/staff/sale.jsp</result>
+            <interceptor-ref name="BranchStack"></interceptor-ref>
+        </action>
+        <action name="sell" class="StaffAction" method="sell">
+            <result name="show">/templates/staff/sell.jsp</result>
+            <result name="wrong card" type="json">
+                <param name="includeProperties">
+                    message
+                </param>
+            </result>
+            <result name="message" type="json">
+                <param name="root">
+                    mapMessage
+                </param>
+            </result>
+            <result name="success" type="redirect">/staff/sale</result>
+            <result name="cash" type="json">
+                <param name="root">
+                    message
+                </param>
+            </result>
+            <interceptor-ref name="BranchStack"></interceptor-ref>
+        </action>
+        <action name="member_info" class="StaffAction" method="memberInfo">
+            <result name="show">/templates/staff/memberInfo.jsp</result>
+            <result name="message" type="json">
+                <param name="root">
+                    mapMessage
+                </param>
+            </result>
+            <interceptor-ref name="BranchStack"></interceptor-ref>
+        </action>
+        <action name="product_plan" class="StaffAction" method="productPlan">
+            <result name="show">/templates/staff/productPlan.jsp</result>
+            <result name="reload" type="redirect">/staff/product_plan</result>
+            <result name="message" type="json">
+                <param name="includeProperties">message</param>
+            </result>
+            <interceptor-ref name="HeadStack"></interceptor-ref>
+        </action>
+        <action name="get_product_list_json" class="StaffAction" method="productListJson">
+            <result name="message" type="json">
+                <param name="includeProperties">
+                    productList\[\d+\]\.id,
+                    productList\[\d+\]\.name,
+                </param>
+            </result>
+            <interceptor-ref name="AjaxStack"></interceptor-ref>
+        </action>
+        <action name="product_plan_check" class="StaffAction" method="productPlanCheck">
+            <result name="show">/templates/staff/productPlanCheck.jsp</result>
+            <result name="message" type="json">
+                <param name="includeProperties">
+                    message
+                </param>
+            </result>
+            <interceptor-ref name="ManagerStack"></interceptor-ref>
+        </action>
+        <action name="member_data" class="StaffAction" method="memberData">
+            <result name="show">/templates/staff/memberData.jsp</result>
+            <interceptor-ref name="ManagerStack"></interceptor-ref>
+        </action>
+        <action name="reservation_sale" class="StaffAction" method="reservationSale">
+            <result name="show">/templates/staff/reservationSale.jsp</result>
+            <interceptor-ref name="ManagerStack"></interceptor-ref>
+        </action>
+        <action name="hot_product" class="StaffAction" method="hotProduct">
+            <result name="show">/templates/staff/hotProduct.jsp</result>
+            <interceptor-ref name="ManagerStack"></interceptor-ref>
+        </action>
+        <action name="product_list" class="StaffAction" method="productList">
+            <result name="show">/templates/staff/productList.jsp</result>
+            <result name="reload" type="redirect">/staff/product_list</result>
+            <result name="message" type="json">
+                <param name="includeProperties">message</param>
+            </result>
+            <interceptor-ref name="ManagerStack"></interceptor-ref>
+        </action>
+    </package>
+
+</struts>

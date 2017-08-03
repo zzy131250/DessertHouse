@@ -1,0 +1,83 @@
+@charset "utf-8";
+
+@font-face {
+  /* font-properties */
+  font-family: "Alex Brush";
+  src:url("/static/fonts/AlexBrush-Regular.ttf")
+}
+
+body {
+  height: 100%;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+.container-fluid {
+  height: 13%;
+
+  .navbar-brand {
+    margin-top: 8.5%;
+    margin-left: 50px !important;
+    font-size: 2em;
+    font-family: "Alex Brush";
+  }
+
+  .link {
+    margin-left: 4%;
+    margin-top: 1.5%;
+    font-size: 1.2em;
+  }
+
+  .dropdown {
+    margin-top: 10%;
+    margin-right: 55px;
+    font-size: 1.2em;
+  }
+
+  .logup {
+    margin-right: 50px;
+  }
+}
+
+#container {
+  width: 90%;
+  margin-left: 5%;
+  min-height: 87%;    /**/
+  margin-bottom: 0px;
+
+  #shoppingCart {
+
+    input[name="cartPurchaseDate"] {
+      width: 200px;
+    }
+
+    #cartPurchaseShop {
+      width: 240px;
+    }
+
+    input[name="number"] {
+      display: inline;
+      width: 50px;
+      height: 25px;
+    }
+  }
+
+  #formLogin {
+    .form-group {
+      margin: 2%;
+    }
+  }
+
+  #push {           /**/
+    height: 3px;
+    clear:both;
+  }
+}
+
+#footer {
+  height: 5px;             /**/
+  position: absolute;
+  width: 100%;
+  text-align: center;
+}
